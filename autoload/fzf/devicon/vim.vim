@@ -345,7 +345,7 @@ endfunction
 
 function! fzf#devicon#vim#files(dir, ...)
   if !executable('devicon-lookup')
-    return s:warn('devicon-lookup is not found')
+    return s:warn('devicon-lookup is not found. It can be installed with `cargo install devicon-lookup`')
   endif
 
   let args = {}
@@ -378,7 +378,7 @@ endfunction
 " ------------------------------------------------------------------
 function! fzf#devicon#vim#locate(query, ...)
   if !executable('devicon-lookup')
-    return s:warn('devicon-lookup is not found')
+    return s:warn('devicon-lookup is not found. It can be installed with `cargo install devicon-lookup`')
   endif
 
   let args = {}
@@ -404,7 +404,7 @@ endfunction
 
 function! fzf#devicon#vim#gitfiles(args, ...)
   if !executable('devicon-lookup')
-    return s:warn('devicon-lookup is not found')
+    return s:warn('devicon-lookup is not found. It can be installed with `cargo install devicon-lookup`')
   endif
 
   let root = s:get_git_root()
@@ -514,7 +514,7 @@ endfunction
 " command (string), has_column (0/1), [options (dict)], [fullscreen (0/1)]
 function! fzf#devicon#vim#grep(grep_command, has_column, ...)
   if !executable('devicon-lookup')
-    return s:warn('devicon-lookup is not found')
+    return s:warn('devicon-lookup is not found. It can be installed with `cargo install devicon-lookup`')
   endif
 
   let words = []
