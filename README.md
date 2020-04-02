@@ -14,13 +14,23 @@ Example GIF
 Installation
 ------------
 
-fzf.devicon.vim depends on BOTH the basic Vim plugin of [the main fzf
-repository][fzf] and [the fzf.vim plugin][fzf.vim] which means you need to **set up both "fzf" and
-"fzf.vim" on Vim**.
+### Dependencies
+
+`fzf.devicon.vim` depends on the [devicon-lookup](https://github.com/coreyja/devicon-lookup) utility version >= 0.8
+This must be installed separately, and can be installed via `cargo`
+
+```
+cargo install devicon-lookup
+```
+
+fzf.devicon.vim also depends on the basic Vim plugin of [the main fzf
+repository][fzf] which means you need to **install both "fzf" and
+"fzf.devicon.vim"**.
 [README-VIM][README-VIM].
 
 [fzf-main]: https://github.com/junegunn/fzf
 [README-VIM]: https://github.com/junegunn/fzf/blob/master/README-VIM.md
+
 
 ### Using [vim-plug](https://github.com/junegunn/vim-plug)
 
