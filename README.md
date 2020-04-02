@@ -3,6 +3,9 @@ fzf :purple_heart: devicon :heart: vim
 
 Things is a fork of `fzf.vim` that adds in support for devicons via the `devicon-lookup` tool
 
+This fork is compatible side by side with `fzf.vim` however it is NOT required! The commands
+that this plugin exports are post-fixed so as to NOT conflict with the originals
+
 Installation
 ------------
 
@@ -27,8 +30,8 @@ so you can omit it if you use a plugin manager that doesn't support hooks.
 Commands
 --------
 
-| Command           | List                                                                    |
-| ---               | ---                                                                     |
+| Command                       | List                                                                    |
+| ---                           | ---                                                                     |
 | `:FilesWithDevicons [PATH]`   | Files (runs `$FZF_DEFAULT_COMMAND` if defined)                          |
 | `:GFilesWithDevicons [OPTS]`  | Git files (`git ls-files`)                                              |
 | `:GFilesWithDevicons?`        | Git files (`git status`)                                                |

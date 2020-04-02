@@ -1,0 +1,125 @@
+fzf-devicon-vim.txt	fzf-devicon-vim	Last change: April 1 2020
+FZFVIM - TABLE OF CONTENTS                         *fzf-devicon-vim* *fzf-vim-toc*
+==============================================================================
+
+  fzf :purple_heart: devicon :heart: vim
+    Installation
+      Using vim-plug
+    Commands
+    Customization
+      Global options
+        Preview window
+      Command-local options
+      Advanced customization
+        Vim functions
+        Example: Customizing Files command
+        Example: git grep wrapper
+        Example: Rg command with preview window
+        Example: Advanced ripgrep integration
+    Mappings
+      Usage
+      Completion helper
+        Reducer example
+    Status line of terminal buffer
+      Hide statusline
+      Custom statusline
+    License
+
+FZF :HEART: VIM                                                *fzf-devicon-vim*
+==============================================================================
+
+Things you can do with {fzf}{1}, devicons and Vim.
+
+                                           {1} https://github.com/junegunn/fzf
+
+INSTALLATION                                      *fzf-devicon-vim-installation*
+==============================================================================
+
+fzf.devicon.vim depends on the basic Vim plugin of {the main fzf repository}{1},
+which means you need to set up both "fzf" and "fzf.devicon.vim" on Vim. To learn
+more about fzf/Vim integration, see {README-VIM}{4}.
+
+                 {1} https://github.com/junegunn/fzf
+                 {4} https://github.com/junegunn/fzf/blob/master/README-VIM.md
+
+
+< Using vim-plug >____________________________________________________________~
+                                                *fzf-devicon-vim-using-vim-plug*
+>
+    Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+    Plug 'coreyja/fzf.devicon.vim'
+<
+`fzf#install()` makes sure that you have the latest binary, but it's optional,
+so you can omit it if you use a plugin manager that doesn't support hooks.
+
+
+COMMANDS                                              *fzf-devicon-vim-commands*
+==============================================================================
+
+    *:FilesWithDevicons* *:GitFilesWithDevicons* *:RgWithDevicons*
+        *:LocateWithDevicons* *:AgWithDevicons*
+
+ ------------------------------+-----------------------------------------------------------
+ Command                       | List                                                                  ~
+ ------------------------------+-----------------------------------------------------------
+ :FilesWithDevicons [PATH]`     | Files (runs  `$FZF_DEFAULT_COMMAND`  if defined)
+ :GFilesWithDevicons [OPTS]`   | Git files ( `git ls-files` )
+ `:GFilesWithDevicons?`          | Git files ( `git status` )
+ :AgWithDevicons [PATTERN]`     | {ag}{5} search result ( `ALT-A`  to select all,  `ALT-D`  to deselect all)
+ `:RgWithDevicons [PATTERN]`     | {rg}{6} search result ( `ALT-A`  to select all,  `ALT-D`  to deselect all)
+ :LocateWithDevicons PATTERN   | locate`  command output
+ ------------------+-----------------------------------------------------------------------
+
+                                                          *g:fzf_command_prefix*
+
+ - All commands are piped to `devicon-lookup` which prefixes each line with a
+   devicon
+ - All commands support CTRL-T / CTRL-X / CTRL-V key bindings to open in a new
+   tab, a new split, or in a new vertical split
+ - Bang-versions of the commands (e.g. `AgWithDevicons!`) will open fzf in fullscreen
+ - You can set `g:fzf_command_prefix` to give the same prefix to the commands
+   - e.g. `let g:fzf_command_prefix = 'Fzf'` and you have `FzfFilesWithDevicons`, etc.
+
+                             {5} https://github.com/ggreer/the_silver_searcher
+                             {6} https://github.com/BurntSushi/ripgrep
+
+
+CUSTOMIZATION                                    *fzf-devicon-vim-customization*
+==============================================================================
+
+
+< Global options >____________________________________________________________~
+                                                *fzf-devicon-vim-global-options*
+
+Every command in fzf.vim internally calls `fzf#wrap` function of the main
+repository which supports a set of global option variables. So please read
+through {README-VIM}{4} to learn more about them.
+
+                 {4} https://github.com/junegunn/fzf/blob/master/README-VIM.md
+
+
+Preview window~
+                                                *fzf-devicon-vim-preview-window*
+
+                                                          *g:fzf_preview_window*
+
+If the width of the screen is wider than 120 columns, some commands will show
+the preview window on the right. You can customize the behavior with
+`g:fzf_preview_window`. Here are some examples:
+>
+    " Empty value to disable preview window altogether
+    let g:fzf_preview_window = ''
+
+    " Always enable preview window on the right with 60% width
+    let g:fzf_preview_window = 'right:60%'
+<
+
+
+LICENSE                                                        *fzf-vim-license*
+==============================================================================
+
+MIT
+
+
+==============================================================================
+vim:tw=78:sw=2:ts=2:ft=help:norl:nowrap:
