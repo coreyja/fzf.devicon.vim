@@ -344,6 +344,10 @@ function! s:shortpath()
 endfunction
 
 function! fzf#devicon#vim#files(dir, ...)
+  if !executable('devicon-lookup')
+    return s:warn('devicon-lookup is not found')
+  endif
+
   let args = {}
   if !empty(a:dir)
     if !isdirectory(expand(a:dir))
@@ -373,6 +377,10 @@ endfunction
 " Locate - Modified with Devicons
 " ------------------------------------------------------------------
 function! fzf#devicon#vim#locate(query, ...)
+  if !executable('devicon-lookup')
+    return s:warn('devicon-lookup is not found')
+  endif
+
   let args = {}
 
   let args.source = 'locate '.a:query.' | devicon-lookup'
@@ -395,6 +403,10 @@ function! s:get_git_root()
 endfunction
 
 function! fzf#devicon#vim#gitfiles(args, ...)
+  if !executable('devicon-lookup')
+    return s:warn('devicon-lookup is not found')
+  endif
+
   let root = s:get_git_root()
   if empty(root)
     return s:warn('Not in git repo')
@@ -496,11 +508,15 @@ function! fzf#devicon#vim#ag_raw(command_suffix, ...)
   if !executable('ag')
     return s:warn('ag is not found')
   endif
-  return call('fzf#vim#grep', extend(['ag --nogroup --column --color '.a:command_suffix, 1], a:000))
+  return call('fzf#devicon#vim#grep', extend(['ag --nogroup --column --color '.a:command_suffix, 1], a:000))
 endfunction
 
 " command (string), has_column (0/1), [options (dict)], [fullscreen (0/1)]
 function! fzf#devicon#vim#grep(grep_command, has_column, ...)
+  if !executable('devicon-lookup')
+    return s:warn('devicon-lookup is not found')
+  endif
+
   let words = []
   for word in split(a:grep_command)
     if word !~# '^[a-z]'
