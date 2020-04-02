@@ -474,6 +474,12 @@ function! s:ag_handler(lines, has_column)
   call s:fill_quickfix(list)
 endfunction
 
+function! s:devicon_grep_sink(items, has_column)
+  let items = map(a:items, "join(split(v:val, ' ')[1:], '')")
+
+  call s:ag_handler(items, a:has_column)
+endfunction
+
 " query, [[ag options], options]
 function! fzf#devicon#vim#ag(query, ...)
   if type(a:query) != s:TYPE.string
@@ -508,13 +514,13 @@ function! fzf#devicon#vim#grep(grep_command, has_column, ...)
   let capname = join(map(words, 'toupper(v:val[0]).v:val[1:]'), '')
   let opts = {
   \ 'column':  a:has_column,
-  \ 'source':  a:grep_command,
+  \ 'source':  a:grep_command.' | devicon-lookup --color --prefix :',
   \ 'options': ['--ansi', '--prompt', capname.'> ',
   \             '--multi', '--bind', 'alt-a:select-all,alt-d:deselect-all',
   \             '--color', 'hl:4,hl+:12']
   \}
   function! opts.sink(lines)
-    return s:ag_handler(a:lines, self.column)
+    return s:devicon_grep_sink(a:lines, self.column)
   endfunction
   let opts['sink*'] = remove(opts, 'sink')
   return s:fzf(name, opts, a:000)

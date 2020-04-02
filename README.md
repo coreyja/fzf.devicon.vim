@@ -18,7 +18,6 @@ repository][fzf] and [the fzf.vim plugin][fzf.vim] which means you need to **set
 
 ```vim
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
 Plug 'coreyja/fzf.devicon.vim'
 ```
 
@@ -42,14 +41,6 @@ Commands
 - Bang-versions of the commands (e.g. `Ag!`) will open fzf in fullscreen
 - You can set `g:fzf_command_prefix` to give the same prefix to the commands
     - e.g. `let g:fzf_command_prefix = 'Fzf'` and you have `FzfFiles`, etc.
-
-(<a name="helptags">1</a>: `Helptags` will shadow the command of the same name
-from [pathogen][pat]. But its functionality is still available via `call
-pathogen#helptags()`. [↩](#a1))
-
-[pat]: https://github.com/tpope/vim-pathogen
-[f]:   https://github.com/tpope/vim-fugitive
-
 
 License
 -------
