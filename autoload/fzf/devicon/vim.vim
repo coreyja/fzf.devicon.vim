@@ -287,16 +287,22 @@ endfunction
 function! s:fzf_expand(fmt)
   return s:fzf_call('expand', a:fmt, 1)
 endfunction
-function! s:common_sink(action, lines) abort
+function! s:devicon_common_sink(action, lines) abort
   if len(a:lines) < 2
     return
   endif
   let key = remove(a:lines, 0)
   let Cmd = get(a:action, key, 'e')
+
+  " This is there devicon stripping happens
+  " It is AFTER we grab the first item as the key as this allows
+  " actions to work correctly
+  let lines = map(a:lines, "join(split(v:val, ' ')[1:], '')")
+
   if type(Cmd) == type(function('call'))
-    return Cmd(a:lines)
+    return Cmd(lines)
   endif
-  if len(a:lines) > 1
+  if len(lines) > 1
     augroup fzf_swap
       autocmd SwapExists * let v:swapchoice='o'
             \| call s:warn('fzf: E325: swap file exists: '.s:fzf_expand('<afile>'))
@@ -306,7 +312,7 @@ function! s:common_sink(action, lines) abort
     let empty = empty(s:fzf_expand('%')) && line('$') == 1 && empty(getline(1)) && !&modified
     let autochdir = &autochdir
     set noautochdir
-    for item in a:lines
+    for item in lines
       if empty
         execute 'e' s:escape(item)
         let empty = 0
@@ -323,12 +329,6 @@ function! s:common_sink(action, lines) abort
     let &autochdir = autochdir
     silent! autocmd! fzf_swap
   endtry
-endfunction
-
-function! s:devicon_common_sink(action, items)
-  let items = map(a:items, "join(split(v:val, ' ')[1:], '')")
-
-  call s:common_sink(a:action, items)
 endfunction
 
 " ------------------------------------------------------------------
