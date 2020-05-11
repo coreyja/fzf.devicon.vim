@@ -21,8 +21,8 @@
 " OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 " WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-let s:cpo_save = &cpo
-set cpo&vim
+let s:cpo_save = &cpoptions
+set cpoptions&vim
 
 " ------------------------------------------------------------------
 " Common
@@ -146,7 +146,7 @@ function! s:wrap(name, opts, bang)
   if has_key(opts, 'options')
     let options = type(opts.options) == s:TYPE.list ? join(opts.options) : opts.options
   endif
-  if options !~ '--expect' && has_key(opts, 'sink*')
+  if options !~? '--expect' && has_key(opts, 'sink*')
     let Sink = remove(opts, 'sink*')
     let wrapped = fzf#wrap(a:name, opts, a:bang)
     let wrapped['sink*'] = Sink
@@ -197,7 +197,7 @@ let s:ansi = {'black': 30, 'red': 31, 'green': 32, 'yellow': 33, 'blue': 34, 'ma
 
 function! s:csi(color, fg)
   let prefix = a:fg ? '38;' : '48;'
-  if a:color[0] == '#'
+  if a:color[0] ==# '#'
     return prefix.'2;'.join(map([a:color[1:2], a:color[3:4], a:color[5:6]], 'str2nr(v:val, 16)'), ';')
   endif
   return prefix.'5;'.a:color
@@ -212,13 +212,13 @@ function! s:ansi(str, group, default, ...)
 endfunction
 
 for s:color_name in keys(s:ansi)
-  execute "function! s:".s:color_name."(str, ...)\n"
+  execute 'function! s:'.s:color_name."(str, ...)\n"
         \ "  return s:ansi(a:str, get(a:, 1, ''), '".s:color_name."')\n"
-        \ "endfunction"
+        \ 'endfunction'
 endfor
 
 function! s:buflisted()
-  return filter(range(1, bufnr('$')), 'buflisted(v:val) && getbufvar(v:val, "&filetype") != "qf"')
+  return filter(range(1, bufnr('$')), 'buflisted(v:val) && getbufvar(v:val, "&filetype") !=? "qf"')
 endfunction
 
 function! s:fzf(name, opts, extra)
@@ -411,7 +411,7 @@ function! fzf#devicon#vim#gitfiles(args, ...)
   if empty(root)
     return s:warn('Not in git repo')
   endif
-  if a:args != '?'
+  if a:args !=# '?'
     let args = {}
 
     let args.source = 'git ls-files '.a:args.(s:is_win ? '' : ' | uniq').' | devicon-lookup'
@@ -453,7 +453,7 @@ endfunction
 function! s:ag_to_qf(line, has_column)
   let parts = split(a:line, '[^:]\zs:\ze[^:]')
   let text = join(parts[(a:has_column ? 3 : 2):], ':')
-  let dict = {'filename': &acd ? fnamemodify(parts[0], ':p') : parts[0], 'lnum': parts[1], 'text': text}
+  let dict = {'filename': &autochdir ? fnamemodify(parts[0], ':p') : parts[0], 'lnum': parts[1], 'text': text}
   if a:has_column
     let dict.col = parts[2]
   endif
@@ -542,6 +542,6 @@ function! fzf#devicon#vim#grep(grep_command, has_column, ...)
 endfunction
 
 " ------------------------------------------------------------------
-let &cpo = s:cpo_save
+let &cpoptions = s:cpo_save
 unlet s:cpo_save
 

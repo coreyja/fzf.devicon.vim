@@ -21,8 +21,8 @@
 " OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 " WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-let s:cpo_save = &cpo
-set cpo&vim
+let s:cpo_save = &cpoptions
+set cpoptions&vim
 let s:is_win = has('win32') || has('win64')
 
 function! s:defs(commands)
@@ -55,6 +55,6 @@ call s:defs([
 \'command!      -bang -nargs=* AgWithDevicons                        call fzf#devicon#vim#ag(<q-args>, s:p(<bang>0), <bang>0)',
 \'command!      -bang -nargs=* RgWithDevicons                        call fzf#devicon#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1, s:p(<bang>0), <bang>0)'])
 
-let &cpo = s:cpo_save
+let &cpoptions = s:cpo_save
 unlet s:cpo_save
 
